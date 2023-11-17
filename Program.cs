@@ -1,57 +1,91 @@
-﻿using System;
- 
-class Program
+﻿Console.BackgroundColor = ConsoleColor.Blue;
+Console.WriteLine("\n--Genética Mendeliana--");
+Console.ResetColor();
+
+string alelo1, alelo2, alelo2alelo1, alelo2alelo2;
+string cruzamento11, cruzamento12, cruzamento21, cruzamento22;
+string descricaoAA, descricaoAa, descricaoaa;
+double percentualAA, percentualAa, percentualaa;
+
+    Console.WriteLine("Digite os alelos do primeiro indivíduo (AA,Aa ou aa): ");
+       string individuo1 = NormalizaAlelo(Console.ReadLine()!.Trim().Substring(0, 2));
+    
+    Console.WriteLine("\nDigite os alelos do segundo indivíduo (AA,Aa ou aa): ");
+    string individuo2 = NormalizaAlelo(Console.ReadLine()!.Trim().Substring(0, 2));
+
+    Console.WriteLine("\nEscolha o tipo de dominância (1 para completa, 2 para incompleta): ");
+      string dominancia = Console.ReadLine()!.Trim().Substring(0, 1).ToUpper();
+
+    if (dominancia != "1" && dominancia != "2")
+    {
+    Console.WriteLine("Tipo de dominância inválido.");
+    return;
+    }
+// Separação dos individuos 
+alelo1 = individuo1.Substring(0, 1);
+alelo2 = individuo1.Substring(1, 1);
+alelo2alelo1 = individuo2.Substring(0, 1);
+alelo2alelo2 = individuo2.Substring(1, 1);
+
+// Classificação dos cruzamentos dos alelos 
+cruzamento11 = NormalizaAlelo($"{alelo1}{alelo2alelo1}");
+cruzamento12 = NormalizaAlelo($"{alelo1}{alelo2alelo2}");
+cruzamento21 = NormalizaAlelo($"{alelo2}{alelo2alelo1}");
+cruzamento22 = NormalizaAlelo($"{alelo2}{alelo2alelo2}");
+
+// Conta do percentual médio 
+percentualAA = 100 * (
+    (cruzamento11 == "AA" ? 1 : 0) +
+    (cruzamento12 == "AA" ? 1 : 0) +
+    (cruzamento21 == "AA" ? 1 : 0) +
+    (cruzamento22 == "AA" ? 1 : 0)
+) / 4;
+
+percentualAa = 100 * (
+    (cruzamento11 == "Aa" ? 1 : 0) +
+    (cruzamento12 == "Aa" ? 1 : 0) +
+    (cruzamento21 == "Aa" ? 1 : 0) +
+    (cruzamento22 == "Aa" ? 1 : 0)
+) / 4;
+
+percentualaa = 100 * (
+    (cruzamento11 == "aa" ? 1 : 0) +
+    (cruzamento12 == "aa" ? 1 : 0) +
+    (cruzamento21 == "aa" ? 1 : 0) +
+    (cruzamento22 == "aa" ? 1 : 0)
+) / 4;
+
+
+    if (dominancia == "C")
+    {
+    descricaoAA = "não apresenta a característica recessiva";
+    descricaoAa = "não apresenta a característica recessiva";
+    descricaoaa = "apresenta a característica recessiva";
+    }
+else
 {
-    static void Main()
+    descricaoAA = "apresenta a característica de `A`";
+    descricaoAa = "apresenta característica distinta de `A` e de `a`";
+    descricaoaa = "apresenta a característica de `a`";
+}
+// exibir os percentuais
+Console.WriteLine();
+Console.WriteLine($"AA: {percentualAA,3}% - {descricaoAA}");
+Console.WriteLine($"Aa: {percentualAa,3}% - {descricaoAa}");
+Console.WriteLine($"aa: {percentualaa,3}% - {descricaoaa}");
+
+
+string NormalizaAlelo(string alelo)
+{
+    string alelo1 = alelo.Substring(0, 1);
+    string alelo2 = alelo.Substring(1, 1);
+
+    if (alelo1 == "a")
     {
-        Console.WriteLine("Digite os alelos do primeiro indivíduo (A ou a): ");
-        char alelo1 = char.ToUpper(Console.ReadKey().KeyChar);
- 
-        Console.WriteLine("\nDigite os alelos do segundo indivíduo (A ou a): ");
-        char alelo2 = char.ToUpper(Console.ReadKey().KeyChar);
- 
-        Console.WriteLine("\nEscolha o tipo de dominância (1 para completa, 2 para incompleta): ");
-        int dominanciaType = int.Parse(Console.ReadLine());
- 
-        double probabilidade = CalcularProbabilidade(alelo1, alelo2, dominanciaType);
- 
-        Console.WriteLine($"\nA probabilidade da característica se manifestar nos descendentes é: {probabilidade:P}");
+        string auxiliar = alelo1;
+        alelo1 = alelo2;
+        alelo2 = auxiliar;
     }
- 
-    static double CalcularProbabilidade(char alelo1, char alelo2, int dominanciaType)
-    {
-        if (dominanciaType == 1)
-        {
-            // Dominância completa
-            if ((alelo1 == 'A' && alelo2 == 'a') || (alelo1 == 'a' && alelo2 == 'A'))
-            {
-                return 0.0; // Característica só ocorre em indivíduos aa
-            }
-            else
-            {
-                return 1.0; // Característica ocorre em todos os descendentes
-            }
-        }
-        else if (dominanciaType == 2)
-        {
-            // Dominância incompleta
-            if (alelo1 == 'A' && alelo2 == 'a' || alelo1 == 'a' && alelo2 == 'A')
-            {
-                return 0.5; // Característica ocorre em 50% dos descendentes (Aa)
-            }
-            else if ((alelo1 == 'A' && alelo2 == 'A') || (alelo1 == 'a' && alelo2 == 'a'))
-            {
-                return 0.0; // Característica só ocorre em indivíduos aa ou AA
-            }
-            else
-            {
-                return 1.0; // Característica ocorre em todos os descendentes (Aa)
-            }
-        }
-        else
-        {
-            Console.WriteLine("Opção inválida para tipo de dominância.");
-            return 0.0;
-        }
-    }
+
+    return $"{alelo1}{alelo2}";
 }
