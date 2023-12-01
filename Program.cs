@@ -19,30 +19,28 @@ Console.BackgroundColor = ConsoleColor.Blue;
         Console.WriteLine("\nDigite os alelos do segundo indivíduo (AA, Aa ou aa): ");
         string individuo2 = NormalizaAlelo(Console.ReadLine()!.Trim().Substring(0, 2));
  
-        Console.WriteLine("\nEscolha o tipo de dominância (1 para completa, 2 para incompleta): ");
+        Console.WriteLine("\nEscolha o tipo de dominância (C para completa, I para incompleta): ");
         string dominancia = Console.ReadLine()!.Trim().Substring(0, 1).ToUpper();
  
-        if (dominancia != "1" && dominancia != "2")
+        if (dominancia != "C" && dominancia != "I")
         {
             Console.WriteLine("Tipo de dominância inválido.");
             return;
         }
  
-        string alelo1 = individuo1.Substring(0, 1);
-        string alelo2 = individuo1.Substring(1, 1);
-        string alelo2alelo1 = individuo2.Substring(0, 1);
-        string alelo2alelo2 = individuo2.Substring(1, 1);
+        alelo1 = individuo1.Substring(0, 1);
+        alelo2 = individuo1.Substring(1, 1);
+        alelo2alelo1 = individuo2.Substring(0, 1);
+        alelo2alelo2 = individuo2.Substring(1, 1);
  
-        string cruzamento11 = NormalizaAlelo($"{alelo1}{alelo2alelo1}");
-        string cruzamento12 = NormalizaAlelo($"{alelo1}{alelo2alelo2}");
-        string cruzamento21 = NormalizaAlelo($"{alelo2}{alelo2alelo1}");
-        string cruzamento22 = NormalizaAlelo($"{alelo2}{alelo2alelo2}");
+        cruzamento11 = NormalizaAlelo($"{alelo1}{alelo2alelo1}");
+        cruzamento12 = NormalizaAlelo($"{alelo1}{alelo2alelo2}");
+        cruzamento21 = NormalizaAlelo($"{alelo2}{alelo2alelo1}");
+        cruzamento22 = NormalizaAlelo($"{alelo2}{alelo2alelo2}");
  
-        double percentualAA = 100 * ((cruzamento11 == "AA" ? 1 : 0) + (cruzamento12 == "AA" ? 1 : 0) + (cruzamento21 == "AA" ? 1 : 0) + (cruzamento22 == "AA" ? 1 : 0)) / 4;
-        double percentualAa = 100 * ((cruzamento11 == "Aa" ? 1 : 0) + (cruzamento12 == "Aa" ? 1 : 0) + (cruzamento21 == "Aa" ? 1 : 0) + (cruzamento22 == "Aa" ? 1 : 0)) / 4;
-        double percentualaa = 100 * ((cruzamento11 == "aa" ? 1 : 0) + (cruzamento12 == "aa" ? 1 : 0) + (cruzamento21 == "aa" ? 1 : 0) + (cruzamento22 == "aa" ? 1 : 0)) / 4;
- 
-        string descricaoAA, descricaoAa, descricaoaa;
+        percentualAA = 100 * ((cruzamento11 == "AA" ? 1 : 0) + (cruzamento12 == "AA" ? 1 : 0) + (cruzamento21 == "AA" ? 1 : 0) + (cruzamento22 == "AA" ? 1 : 0)) / 4;
+        percentualAa = 100 * ((cruzamento11 == "Aa" ? 1 : 0) + (cruzamento12 == "Aa" ? 1 : 0) + (cruzamento21 == "Aa" ? 1 : 0) + (cruzamento22 == "Aa" ? 1 : 0)) / 4;
+        percentualaa = 100 * ((cruzamento11 == "aa" ? 1 : 0) + (cruzamento12 == "aa" ? 1 : 0) + (cruzamento21 == "aa" ? 1 : 0) + (cruzamento22 == "aa" ? 1 : 0)) / 4;
  
         if (dominancia == "C")
         {
